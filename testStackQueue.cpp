@@ -24,8 +24,8 @@ TEST_CASE("stack::basic functions", "[weight=1][part=stack]")
     // cout << intStack.peek() << endl;
     while (!intStack.isEmpty())
     {
+        cout << intStack.peek() << " ";
         result.push_back(intStack.pop());
-        // cout << intStack.pop() << " ";
     }
     REQUIRE(result == expected);
 }

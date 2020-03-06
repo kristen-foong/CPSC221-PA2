@@ -4,6 +4,7 @@
  *
  */
 
+ using namespace std;
 
 /**
  * Default constructor. Remember to initialize any variables you need
@@ -46,13 +47,11 @@ void Stack<T>::push(const T &newItem){
     /**
      * @todo Your code here!
      */
-     if(num_items >= max_items) {
-       resize(max_items*EXPANSIONFACTOR);
-       max_items = max_items*EXPANSIONFACTOR;
-     } else {
-       items[num_items] = newItem;
-       num_items++;
+     if(num_items == capacity()) {
+       resize(capacity()*EXPANSIONFACTOR);
      }
+     items[num_items] = newItem;
+     num_items++;
 };
 
 
@@ -71,18 +70,16 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
-     T temp = items[num_items - 1];
-     if(num_items < (1/SHRINKRATE)) {
-       T* arr = new T[(1/EXPANSIONFACTOR)];
-       for(int i = 0; i < (capacity() - 2); i++) {
-         arr[i] = items[i];
-       }
-       delete items;
-       items = arr;
-     } else {
-       items[capacity() - 1] = NULL;
-     }
+     T temp = items[size()-1];
+     // items[num_items - 1] = NULL;
      num_items--;
+     int shrinkSize = (1/EXPANSIONFACTOR)*capacity();
+
+     if((size() < (capacity()/SHRINKRATE)) && (shrinkSize >= DEFAULTCAPACITY)) {
+       // cout << "in pop if" << endl;
+       resize(shrinkSize);
+     }
+     // cout << temp << endl;
      return temp;
 };
 
@@ -187,10 +184,12 @@ void Stack<T>::resize(size_t n){
     /**
      * @todo Your code here!
      */
+
      T* arr = new T[n];
-     for(int i = 0; i < capacity(); i++) {
+     for(int i = 0; i < n; i++) {
        arr[i] = items[i];
      }
      delete items;
      items = arr;
+     max_items = n;
 };
