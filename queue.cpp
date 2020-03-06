@@ -81,6 +81,11 @@ template <class T> T Queue<T>::peek()
     /**
      * @todo Your code here! You will need to replace the following line.
      */
+     if(stack_2.isEmpty()) {
+       while(!stack_1.isEmpty()) {
+         stack_2.push(stack_1.pop());
+       }
+     }
      return stack_2.peek();
 }
 
