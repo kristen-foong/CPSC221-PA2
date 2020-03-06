@@ -4,6 +4,7 @@
  *
  */
 
+
 /**
  * Default constructor. Remember to initialize any variables you need
  * and allocate any required memory. The initial size of `items` should
@@ -45,10 +46,11 @@ void Stack<T>::push(const T &newItem){
     /**
      * @todo Your code here!
      */
-     if(items->size() >= max_items) {
-       items->resize(max_items*EXPANSIONFACTOR);
+     if(num_items >= max_items) {
+       resize(max_items*EXPANSIONFACTOR);
      } else {
-       *items[num_items] = &newItem;
+       *items[num_items] = newItem;
+       num_items++;
      }
 };
 
@@ -68,16 +70,18 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
-     // T* temp = *items[items->size() - 1];
-     // if(items->size() < (1/SHRINKRATE)) {
+     // T* temp = *items[num_items - 1];
+     // if(num_items < (1/SHRINKRATE)) {
      //   T* arr = new T[(1/EXPANSIONFACTOR)];
-     //   for(int i = 0; i < (items->size() - 2); i++) {
+     //   for(int i = 0; i < (num_items - 2); i++) {
      //     arr[i] = items[i];
      //   }
+     //   delete items;
+     //   items = arr;
+     // } else {
+     //
      // }
-     // delete items;
-     // items = arr;
-     // num_items = items->size();
+     // num_items--;
      // return temp;
 };
 
