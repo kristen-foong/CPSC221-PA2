@@ -48,8 +48,9 @@ void Stack<T>::push(const T &newItem){
      */
      if(num_items >= max_items) {
        resize(max_items*EXPANSIONFACTOR);
+       max_items = max_items*EXPANSIONFACTOR;
      } else {
-       *items[num_items] = newItem;
+       items[num_items] = newItem;
        num_items++;
      }
 };
@@ -70,19 +71,19 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
-     // T* temp = *items[num_items - 1];
-     // if(num_items < (1/SHRINKRATE)) {
-     //   T* arr = new T[(1/EXPANSIONFACTOR)];
-     //   for(int i = 0; i < (num_items - 2); i++) {
-     //     arr[i] = items[i];
-     //   }
-     //   delete items;
-     //   items = arr;
-     // } else {
-     //
-     // }
-     // num_items--;
-     // return temp;
+     T temp = items[num_items - 1];
+     if(num_items < (1/SHRINKRATE)) {
+       T* arr = new T[(1/EXPANSIONFACTOR)];
+       for(int i = 0; i < (capacity() - 2); i++) {
+         arr[i] = items[i];
+       }
+       delete items;
+       items = arr;
+     } else {
+       items[capacity() - 1] = NULL;
+     }
+     num_items--;
+     return temp;
 };
 
 /**
