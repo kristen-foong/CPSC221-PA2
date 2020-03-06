@@ -97,6 +97,7 @@ template <class T> void Stack<T>::add(const T &theItem)
      * @todo Your code here! Hint: this should call another Stack function
      *  to add the element to the Stack.
      */
+     push(theItem);
 }
 
 /**
@@ -110,6 +111,7 @@ template <class T> T Stack<T>::remove()
      * @todo Your code here! Hint: this should call another Stack function
      * to remove an element from the Stack and return it.
      */
+     return pop();
 }
 
 /**
@@ -125,6 +127,8 @@ T Stack<T>::peek(){
     /**
      * @todo Your code here!
      */
+     T temp = items[num_items - 1];
+     return temp;
 };
 
 /**
@@ -137,6 +141,10 @@ bool Stack<T>::isEmpty() const {
     /**
      * @todo Your code here!
      */
+     if(num_items == 0) {
+       return true;
+     }
+     return false;
 };
 
 /**
@@ -152,6 +160,7 @@ size_t Stack<T>::capacity() const {
     /**
      * @todo Your code here!
      */
+     return max_items;
 };
 
 /**
@@ -164,6 +173,7 @@ size_t Stack<T>::size() const {
     /**
      * @todo Your code here!
      */
+     return num_items;
 };
 
 /**
@@ -177,4 +187,10 @@ void Stack<T>::resize(size_t n){
     /**
      * @todo Your code here!
      */
+     T* arr = new T[n];
+     for(int i = 0; i < capacity(); i++) {
+       arr[i] = items[i];
+     }
+     delete items;
+     items = arr;
 };
