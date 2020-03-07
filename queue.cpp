@@ -14,9 +14,9 @@ template <class T> void Queue<T>::enqueue(T const &newItem)
     /**
      * @todo Your code here!
      */
-     cout << "enqueue" << endl;
+     // cout << "enqueue" << endl;
      stack_1.push(newItem);
-     cout << stack_1.peek() << endl;
+     // cout << stack_1.peek() << endl;
 }
 
 /**
@@ -30,14 +30,14 @@ template <class T> T Queue<T>::dequeue()
     /**
      * @todo Your code here! You will need to replace the following line.
      */
-     cout << "dequeue" << endl;
+     // cout << "dequeue" << endl;
      if(stack_2.isEmpty()){
        while(!stack_1.isEmpty()){
          stack_2.push(stack_1.pop());
        }
      }
      T temp = stack_2.pop();
-     cout << temp << endl;
+     // cout << temp << endl;
      return temp;
 }
 
