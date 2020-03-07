@@ -45,7 +45,7 @@ class fadeColorPicker : public colorPicker
      * distance from the current point to the center,
      * increases.
      *
-     *  The new luminance is simply newL = centerL * (fadeFactor)^(distSq).
+     * The new luminance is simply newL = centerL * (fadeFactor)^(dist).
      *  centerL, and all the information you need to compute distSq is
      * given via the input parameter p.
      *

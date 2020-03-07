@@ -31,6 +31,7 @@ template <class T> Stack<T>::~Stack()
     /**
      * @todo Your code here!
      */
+     delete []items;
 }
 
 /**
@@ -70,12 +71,12 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
-     T temp = items[size()-1];
+     T temp = items[num_items-1];
      // items[num_items - 1] = NULL;
      num_items--;
-     int shrinkSize = (1/EXPANSIONFACTOR)*capacity();
+     int shrinkSize = (max_items/EXPANSIONFACTOR);
 
-     if((size() < (capacity()/SHRINKRATE)) && (shrinkSize >= DEFAULTCAPACITY)) {
+     if((num_items < (max_items/SHRINKRATE)) && (shrinkSize >= DEFAULTCAPACITY)) {
        // cout << "in pop if" << endl;
        resize(shrinkSize);
      }
@@ -91,7 +92,7 @@ T Stack<T>::pop(){
 template <class T> void Stack<T>::add(const T &theItem)
 {
     /**
-     * @todo Your code here! Hint: this should call another Stack function
+     * @todo Your code goes here! Hint: this should call another Stack function
      *  to add the element to the Stack.
      */
      push(theItem);
@@ -184,9 +185,8 @@ void Stack<T>::resize(size_t n){
     /**
      * @todo Your code here!
      */
-
      T* arr = new T[n];
-     for(int i = 0; i < n; i++) {
+     for(unsigned long i = 0; i < n; i++) {
        arr[i] = items[i];
      }
      delete items;
