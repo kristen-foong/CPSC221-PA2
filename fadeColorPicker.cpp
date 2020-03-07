@@ -9,7 +9,8 @@ fadeColorPicker::fadeColorPicker(double fade)
 HSLAPixel fadeColorPicker::operator()(point p)
 {
     /* your code here */
-    int dist = pow(p.x - p.c.x,2) + pow(p.y - p.c.y,2);
-    int newL = p.c.color.l * pow(fadeFactor,dist);
-    return p.c.color;
+    HSLAPixel color = p.c.color;
+    int dist = sqrt(pow(p.c.x - p.x,2) + pow(p.c.y - p.y,2));
+    color.l = p.c.color.l * pow(fadeFactor,dist);
+    return color;
 }

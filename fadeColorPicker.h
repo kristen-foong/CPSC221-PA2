@@ -22,8 +22,8 @@ using namespace std;
  * coordinates and color of the center to which (x,y) has been assigned.
  * The hue and saturation of the color of (x,y)
  * is the same as the center, but the luminiance is computed as
- * newL = (oldL * fadeFactor ^ (distSq)), where oldL is the center's
- * luminance, fadeFactor is a parameter, and distSq is the squared
+ * newL = (oldL * fadeFactor ^ (dist)), where oldL is the center's
+ * luminance, fadeFactor is a parameter, and dist is the
  * Euclidean distance between the current point and the center.
  *
  */

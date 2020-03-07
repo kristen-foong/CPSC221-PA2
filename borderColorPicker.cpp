@@ -13,11 +13,8 @@ HSLAPixel borderColorPicker::operator()(point p)
 {
     /* your code here */
     HSLAPixel newFill = p.c.color;
-    if(p.x-borderSize < borderSize || p.y - borderSize < borderSize) {
+    if(p.c.x < borderSize || p.c.y < borderSize || p.c.x > img.width()-borderSize || p.c.y > img.height()-borderSize) {
       newFill = fillColor;
     }
-    // if(p.x + ) {
-    //
-    // }
     return newFill;
 }
