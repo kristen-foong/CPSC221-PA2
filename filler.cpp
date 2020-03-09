@@ -130,7 +130,6 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
      }
 
      int fram = 0;
-     anim.addFrame(config.img);
      // for each center given in the centers vector array
      for(int counterCenter = 0; counterCenter < (int)config.centers.size(); counterCenter++){
        // pick the corresponding picker.
@@ -141,7 +140,7 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
        ord.add(point(c));
        fram++;
        if(fram % config.frameFreq == 0) {
-         anim.addFrame(config.img);
+         anim.addFrame(im);
        }
        // loop while ordering structure stack/queue is not empty
        while(!ord.isEmpty()){
@@ -173,7 +172,7 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
              *impix = cpick->operator()(newp);
              fram++;
              if(fram % config.frameFreq == 0) {
-               anim.addFrame(config.img);
+               anim.addFrame(im);
              }
            }
          }
@@ -192,7 +191,7 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
              *impix = cpick->operator()(newp);
              fram++;
              if(fram % config.frameFreq == 0) {
-               anim.addFrame(config.img);
+               anim.addFrame(im);
              }
            }
          }
@@ -211,7 +210,7 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
              *impix = cpick->operator()(newp);
              fram++;
              if(fram % config.frameFreq == 0) {
-               anim.addFrame(config.img);
+               anim.addFrame(im);
              }
            }
          }
@@ -230,7 +229,7 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
              *impix = cpick->operator()(newp);
              fram++;
              if(fram % config.frameFreq == 0) {
-               anim.addFrame(config.img);
+               anim.addFrame(im);
              }
            }
          }
@@ -238,6 +237,6 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
        }
 
      }
-     anim.addFrame(config.img);
+     anim.addFrame(im);
      return anim;
  }
