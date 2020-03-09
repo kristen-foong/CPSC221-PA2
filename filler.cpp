@@ -129,22 +129,20 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
        }
      }
 
-     int pick = 0;
      int fram = 0;
      anim.addFrame(config.img);
      // for each center given in the centers vector array
-     for(center c : config.centers){
+     for(int counterCenter = 0; counterCenter < (int)config.centers.size(); counterCenter++){
        // pick the corresponding picker.
        // int pick controls where we are in the picker array
-       colorPicker* cpick = config.pickers[pick];
+       // cout << "iterating through pickers" << endl;
+       colorPicker* cpick = config.pickers[counterCenter];
+       center c = config.centers[counterCenter];
        ord.add(point(c));
        fram++;
        if(fram % config.frameFreq == 0) {
          anim.addFrame(config.img);
        }
-       int i = 0;
-       int xdir = 0;
-       int ydir = 0;
        // loop while ordering structure stack/queue is not empty
        while(!ord.isEmpty()){
          // get top pixel
@@ -153,30 +151,23 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
          // int ydir[] = {0,1,0,-1};
          // iterate over the different directions
          // for(int i = 0; i < 4; i++) {
-         //   // if pixel is within image
-         //
-         // }
-         if(i == 0) {
-           xdir = -1;
-           ydir = 0;
-         } else if (i == 1) {
-           xdir = 0;
-           ydir = 1;
-         } else if (i == 2) {
-           xdir = 1;
-           ydir = 0;
-         } else if (i == 3){
-           xdir = 0;
-           ydir = -1;
-         }
+         //}
+
+         int left = p.x - 1;
+         int down = p.y +1;
+         int right = p.x + 1;
+         int up = p.y -1;
+
+         // LEFT
          // if((int)(p.x + xdir[i]) < (int)imw && (int)(p.x + xdir[i]) >= 0 && (int)(p.y + ydir[i]) < imh && p.y + ydir[i] >= 0) {
-         if((int)(p.x + xdir) < (int)imw && (int)(p.x + xdir) >= 0 && (int)(p.y + ydir) < imh && (int)(p.y + ydir) >= 0) {
+         if(left < imw && left >= 0) {
            // point newp = point(p.x + xdir[i], p.y + ydir[i], p.c);
-          point newp = point(p.x + xdir, p.y + ydir, p.c);
+          point newp = point(left, p.y, c);
            // if pixel has not been processed and color distance is within tolerance
-           HSLAPixel* impix = im.getPixel(newp.x, newp.y);
-           if(check[newp.x][newp.y] == false && p.c.color.dist(*impix) <= config.tolerance) {
-             check[newp.x][newp.y] = true;
+           HSLAPixel* impix = im.getPixel(left, p.y);
+           if(check[left][newp.y] == false && c.color.dist(*impix) <= config.tolerance) {
+             (check[left][newp.y]) = true;
+             // cout << "add left: " << newp.x << "," << newp.y << endl;
              ord.add(newp);
              // send pixel to colorPicker
              *impix = cpick->operator()(newp);
@@ -186,11 +177,67 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
              }
            }
          }
-         pick++;
+
+         // DOWN
+         if(down < imh && down >= 0) {
+           // point newp = point(p.x + xdir[i], p.y + ydir[i], p.c);
+          point newp = point(p.x, down, c);
+           // if pixel has not been processed and color distance is within tolerance
+           HSLAPixel* impix = im.getPixel(p.x, down);
+           if(check[newp.x][down] == false && c.color.dist(*impix) <= config.tolerance) {
+             check[newp.x][down] = true;
+             // cout << "add down: " << newp.x << "," << newp.y << endl;
+             ord.add(newp);
+             // send pixel to colorPicker
+             *impix = cpick->operator()(newp);
+             fram++;
+             if(fram % config.frameFreq == 0) {
+               anim.addFrame(config.img);
+             }
+           }
+         }
+
+         // RIGHT
+         if(right < imw && right >= 0) {
+           // point newp = point(p.x + xdir[i], p.y + ydir[i], p.c);
+          point newp = point(right, p.y, c);
+           // if pixel has not been processed and color distance is within tolerance
+           HSLAPixel* impix = im.getPixel(right, p.y);
+           if(check[right][newp.y] == false && c.color.dist(*impix) <= config.tolerance) {
+             check[right][newp.y] = true;
+             // cout << "add right: " << newp.x << "," << newp.y << endl;
+             ord.add(newp);
+             // send pixel to colorPicker
+             *impix = cpick->operator()(newp);
+             fram++;
+             if(fram % config.frameFreq == 0) {
+               anim.addFrame(config.img);
+             }
+           }
+         }
+
+         // UP
+         if(up < imh && up >= 0) {
+           // point newp = point(p.x + xdir[i], p.y + ydir[i], p.c);
+          point newp = point(p.x, up, c);
+           // if pixel has not been processed and color distance is within tolerance
+           HSLAPixel* impix = im.getPixel(p.x, up);
+           if(check[newp.x][up] == false && c.color.dist(*impix) <= config.tolerance) {
+             check[newp.x][up] = true;
+             // cout << "add up: " << newp.x << "," << newp.y << endl;
+             ord.add(newp);
+             // send pixel to colorPicker
+             *impix = cpick->operator()(newp);
+             fram++;
+             if(fram % config.frameFreq == 0) {
+               anim.addFrame(config.img);
+             }
+           }
+         }
+
        }
+
      }
      anim.addFrame(config.img);
-
-
      return anim;
  }

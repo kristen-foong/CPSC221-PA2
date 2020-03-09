@@ -18,16 +18,21 @@ HSLAPixel borderColorPicker::operator()(point p)
     //if a single point outside p is within the tolerance, and p is outside the tolerance, we color p with the fillColor
     int left = (int)p.x - borderSize;
     int up = (int)p.y - borderSize;
-    int dis = (p.x-left)*(p.x-left) + (p.y-up)*(p.y-up);
+    unsigned right = p.x + borderSize;
+    unsigned down = p.y + borderSize;
     int bord = borderSize*borderSize;
-    if ((left < 0 || up < 0 || left >= (int)img.width() || up >= (int)img.height()) && dis <= bord){
+    if (left < 0 || up < 0 || right >= img.width() || down >= img.height()){
       return fillColor;
     }
-    for(int i = (int)(p.x - borderSize); i <= (int)(p.x + borderSize); i++) {
-      for(int j = (int)(p.y - borderSize); j <= (int)(p.y + borderSize); j++) {
-        HSLAPixel curr = *img.getPixel(i,j);
-        if(p.c.color.dist(curr) >= tolerance && dis <= bord) {
-          return fillColor;
+    for(unsigned k = (unsigned) left; k <= right; k++) {
+      for(unsigned l = (unsigned) up; l <= down; l++) {
+        int dis = (p.x-k)*(p.x-k) + (p.y-l)*(p.y-l);
+        if (dis <= bord){
+          // cout << k << "," << l << endl;
+          // HSLAPixel curr = *img.getPixel(k,l);
+          if(p.c.color.dist(*img.getPixel(k,l)) >= tolerance) {
+            return fillColor;
+          }
         }
       }
     }
