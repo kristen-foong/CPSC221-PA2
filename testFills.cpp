@@ -20,7 +20,7 @@ using namespace std;
 using namespace cs221util;
 
 // Whether to write solutions images or test
-#define WRITESOLNIMAGES 0
+#define WRITESOLNIMAGES 1
 
 #define IMAGEDIR "images/"
 #define SOLNIMGDIR "soln_images/"

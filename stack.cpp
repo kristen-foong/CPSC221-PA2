@@ -31,7 +31,7 @@ template <class T> Stack<T>::~Stack()
     /**
      * @todo Your code here!
      */
-     delete []items;
+     delete[] items;
 }
 
 /**
@@ -189,7 +189,7 @@ void Stack<T>::resize(size_t n){
      for(unsigned long i = 0; i < n; i++) {
        arr[i] = items[i];
      }
-     delete items;
+     delete[] items;
      items = arr;
      max_items = n;
 };

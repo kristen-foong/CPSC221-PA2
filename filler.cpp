@@ -16,7 +16,7 @@ animation filler::fillBFS(FillerConfig &config)
      * @todo Your code here! You should replace the following line with a
      * correct call to fill.
      */
-     fill<Queue>(config);
+     return fill<Queue>(config);
 }
 
 /**
@@ -31,7 +31,7 @@ animation filler::fillDFS(FillerConfig &config)
      * @todo Your code here! You should replace the following line with a
      * correct call to fill.
      */
-     fill<Stack>(config);
+     return fill<Stack>(config);
 }
 
 /**
@@ -113,6 +113,7 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
      OrderingStructure<point> ord;
 
      PNG im = config.img;
+     anim.addFrame(im);
 
      int imw = (int)im.width();
      int imh = (int)im.height();
@@ -129,35 +130,63 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
      }
 
      int pick = 0;
+     int fram = 0;
+     anim.addFrame(config.img);
      // for each center given in the centers vector array
      for(center c : config.centers){
        // pick the corresponding picker.
        // int pick controls where we are in the picker array
        colorPicker* cpick = config.pickers[pick];
        ord.add(point(c));
+       fram++;
+       if(fram % config.frameFreq == 0) {
+         anim.addFrame(config.img);
+       }
+       int i = 0;
+       int xdir = 0;
+       int ydir = 0;
        // loop while ordering structure stack/queue is not empty
        while(!ord.isEmpty()){
          // get top pixel
          point p = ord.remove();
-         int xdir[] = {-1,0,1,0};
-         int ydir[] = {0,1,0,-2};
+         // int xdir[] = {-1,0,1,0};
+         // int ydir[] = {0,1,0,-1};
          // iterate over the different directions
-         for(int i = 0; i < 4; i++) {
-           point newp = point(p.x + xdir[i], p.y + ydir[i], p.c);
-           // if pixel is within image
-           if(newp.x < imw && newp.x >= 0 && newp.y < imh && newp.y >= 0) {
-             HSLAPixel impix = *im.getPixel(newp.x, newp.y);
-             // if pixel has not been processed and color distance is within tolerance
-             if(check[newp.x][newp.y] == false && p.c.color.dist(impix) <= config.tolerance) {
-               check[newp.x][newp.y] = true;
-               impix = cpick->operator()(newp);
-               pick++;
-               if(pick % config.frameFreq == 0) {
-                 anim.addFrame(config.img);
-               }
+         // for(int i = 0; i < 4; i++) {
+         //   // if pixel is within image
+         //
+         // }
+         if(i == 0) {
+           xdir = -1;
+           ydir = 0;
+         } else if (i == 1) {
+           xdir = 0;
+           ydir = 1;
+         } else if (i == 2) {
+           xdir = 1;
+           ydir = 0;
+         } else if (i == 3){
+           xdir = 0;
+           ydir = -1;
+         }
+         // if((int)(p.x + xdir[i]) < (int)imw && (int)(p.x + xdir[i]) >= 0 && (int)(p.y + ydir[i]) < imh && p.y + ydir[i] >= 0) {
+         if((int)(p.x + xdir) < (int)imw && (int)(p.x + xdir) >= 0 && (int)(p.y + ydir) < imh && (int)(p.y + ydir) >= 0) {
+           // point newp = point(p.x + xdir[i], p.y + ydir[i], p.c);
+          point newp = point(p.x + xdir, p.y + ydir, p.c);
+           // if pixel has not been processed and color distance is within tolerance
+           HSLAPixel* impix = im.getPixel(newp.x, newp.y);
+           if(check[newp.x][newp.y] == false && p.c.color.dist(*impix) <= config.tolerance) {
+             check[newp.x][newp.y] = true;
+             ord.add(newp);
+             // send pixel to colorPicker
+             *impix = cpick->operator()(newp);
+             fram++;
+             if(fram % config.frameFreq == 0) {
+               anim.addFrame(config.img);
              }
            }
          }
+         pick++;
        }
      }
      anim.addFrame(config.img);
