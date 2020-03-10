@@ -246,6 +246,12 @@ template <template <class T> class OrderingStructure> animation filler::fill(Fil
         }
       }
     }
+    
+     for(int k = 0; k < imw; k++) {
+       delete check[k];
+     }
+
+     delete[] check;
     anim.addFrame(im);
     return anim;
 }
